@@ -1,44 +1,40 @@
-const gameState = {};
+let gameScene = new Phaser.Scene("Game");
 
-function preload() {
-  this.load.image("background", "assets/images/thehouse.png");
-  this.load.image("player", "assets/images/howl.png");
-}
-
-function create() {
-  let bg = this.add.sprite(0, 0, "background");
-  bg.setOrigin(0, 0);
-  gameState.player = this.add.sprite(150, 200, "player");
-  // Set cursor keys here!
-  gameState.cursors = this.input.keyboard.createCursorKeys();
-}
-
-function update() {
-  // Update based on keypress here!
-  if (gameState.cursors.right.isDown) {
-    gameState.player.x += 5;
-  }
-  if (gameState.cursors.left.isDown) {
-    gameState.player.x -= 5;
-  }
-  if (gameState.cursors.up.isDown) {
-    gameState.player.y -= 5;
-  }
-  if (gameState.cursors.down.isDown) {
-    gameState.player.y += 5;
-  }
-}
-
-const config = {
-  type: Phaser.AUTO,
-  width: 400,
-  height: 500,
-  backgroundColor: "#5f2a55",
-  scene: {
-    preload,
-    create,
-    update
-  }
+gameScene.init = function() {
+  this.stats = {
+    health: 100,
+    happiness: 100
+  };
 };
 
-const game = new Phaser.Game(config);
+gameScene.preload = function() {
+  this.load.image("yard", "assets/images/home1.png");
+  this.load.image("apple", "assets/images/apple.png");
+  this.load.image("candy", "assets/images/candy.png");
+  this.load.image("toy", "assets/images/rubber_duck.png");
+
+  this.load.image("pet", "assets/images/howl.png");
+};
+
+gameScene.create = function() {
+  let bg = this.add.sprite(0, 0, "yard");
+  bg.setOrigin(0, 0);
+
+  this.pet = this.add.sprite(320, 345, "pet", 0);
+
+  this.appleBT = this.add.sprite(245, 360, "apple").setScale(0.6);
+  this.candyBT = this.add.sprite(245, 410, "candy").setScale(0.6);
+  this.toyBT = this.add.sprite(245, 310, "toy").setScale(0.6);
+};
+
+let config = {
+  type: Phaser.AUTO,
+  width: 640,
+  height: 480,
+  scene: gameScene,
+  title: "Your Virtual Pet",
+  pixelArt: false,
+  backgroundColor: "ffffff"
+};
+
+let game = new Phaser.Game(config);
